@@ -34,7 +34,15 @@
                 addRemoveButtonToSection(cont, 'contact');
             });
 
+            // Add the cloned client block
             container.appendChild(clone);
+
+            // 🔽 Add hidden separator to signal a new client block
+            var separator = document.createElement("input");
+            separator.type = "hidden";
+            separator.name = "ClientBreak";
+            separator.value = "true";
+            container.appendChild(separator);
         }
 
         function addRemoveButtonToSection(section, type) {

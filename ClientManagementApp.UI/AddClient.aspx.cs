@@ -24,6 +24,11 @@ namespace ClientManagementApp.UI
             var contactTypes = Request.Form.GetValues("ContactType");
             var contactValues = Request.Form.GetValues("ContactValue");
 
+            var breaks = Request.Form.GetValues("ClientBreak");
+
+            int addressIndex = 0;
+            int contactIndex = 0;
+
             try
             {
                 ClientServiceClient proxy = new ClientServiceClient();
@@ -36,35 +41,59 @@ namespace ClientManagementApp.UI
                         LastName = lastNames[i],
                         Gender = genders[i],
                         DateOfBirth = dobs[i],
-                        Addresses = new[] {
-                    new AddressDto {
-                        AddressType = addressTypes[i],
-                        Street = streets[i],
-                        City = cities[i],
-                        Province = provinces[i],
-                        PostalCode = postalCodes[i],
-                        Country = countries[i]
-                    }
-                },
-                        Contacts = new[] {
-                    new ContactDto {
-                        ContactType = contactTypes[i],
-                        ContactValue = contactValues[i]
-                    }
-                }
+                        Addresses = new AddressDto[0],
+                        Contacts = new ContactDto[0]
                     };
 
+                    // Manually build address list per client
+                    var addrList = new List<AddressDto>();
+                    while (addressIndex < addressTypes.Length && !string.IsNullOrWhiteSpace(addressTypes[addressIndex]))
+                    {
+                        addrList.Add(new AddressDto
+                        {
+                            AddressType = addressTypes[addressIndex],
+                            Street = streets[addressIndex],
+                            City = cities[addressIndex],
+                            Province = provinces[addressIndex],
+                            PostalCode = postalCodes[addressIndex],
+                            Country = countries[addressIndex]
+                        });
+                        addressIndex++;
+                    }
+
+                    var contList = new List<ContactDto>();
+                    while (contactIndex < contactTypes.Length && !string.IsNullOrWhiteSpace(contactTypes[contactIndex]))
+                    {
+                        contList.Add(new ContactDto
+                        {
+                            ContactType = contactTypes[contactIndex],
+                            ContactValue = contactValues[contactIndex]
+                        });
+                        contactIndex++;
+                    }
+
+                    client.Addresses = addrList.ToArray();
+                    client.Contacts = contList.ToArray();
+
                     proxy.AddClient(client);
+
+                    // Skip over the ClientBreak (if exists)
+                    if (breaks != null && i < breaks.Length)
+                    {
+                        addressIndex++;
+                        contactIndex++;
+                    }
                 }
 
                 lblStatus.Visible = true;
-                lblStatus.Text = "All clients saved successfully!";
+                lblStatus.ForeColor = System.Drawing.Color.Green;
+                lblStatus.Text = "All clients and nested data saved successfully!";
             }
             catch (Exception ex)
             {
                 lblStatus.Visible = true;
                 lblStatus.ForeColor = System.Drawing.Color.Red;
-                lblStatus.Text = "Error saving clients: " + ex.Message;
+                lblStatus.Text = "Error: " + ex.Message;
             }
         }
 
