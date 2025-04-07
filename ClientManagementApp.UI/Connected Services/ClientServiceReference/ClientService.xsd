@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ClientManagementApp.DTOs" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ClientManagementApp.DTOs" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ClientDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Addresses" nillable="true" type="tns:ArrayOfAddressDto" />
+      <xs:element minOccurs="0" name="ClientId" type="xs:int" />
+      <xs:element minOccurs="0" name="Contacts" nillable="true" type="tns:ArrayOfContactDto" />
+      <xs:element minOccurs="0" name="DateOfBirth" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Gender" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ClientDto" nillable="true" type="tns:ClientDto" />
+  <xs:complexType name="ArrayOfAddressDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AddressDto" nillable="true" type="tns:AddressDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAddressDto" nillable="true" type="tns:ArrayOfAddressDto" />
+  <xs:complexType name="AddressDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AddressId" type="xs:int" />
+      <xs:element minOccurs="0" name="AddressType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClientId" type="xs:int" />
+      <xs:element minOccurs="0" name="Country" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PostalCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Province" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Street" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddressDto" nillable="true" type="tns:AddressDto" />
+  <xs:complexType name="ArrayOfContactDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContactDto" nillable="true" type="tns:ContactDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContactDto" nillable="true" type="tns:ArrayOfContactDto" />
+  <xs:complexType name="ContactDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientId" type="xs:int" />
+      <xs:element minOccurs="0" name="ContactId" type="xs:int" />
+      <xs:element minOccurs="0" name="ContactType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContactValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContactDto" nillable="true" type="tns:ContactDto" />
+</xs:schema>
